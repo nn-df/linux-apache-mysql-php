@@ -56,7 +56,7 @@ get_confirmation_service() {
 
     if [ $? -eq 0 ]; then
         if [[ -z ${SERVICE_SELECTED} ]];then
-            echo "No Service Selected! Please choose any [L] services ..."
+            echo "No Service Selected! Please choose any [LAMP] services ..."
             exit 1
         else
             if [[ ${SERVICE_SELECTED} == *"L"* ]];then
