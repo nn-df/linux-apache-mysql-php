@@ -52,7 +52,7 @@ get_confirmation_service() {
     "L" "Linux  - Initial Configuration for linux    " OFF \
     "A" "Apache - Install APACHE web server" OFF \
     "M" "Mysql  - Install MYSQL server" OFF \
-    "4" "4" OFF 3>&1 1>&2 2>&3)
+    "P" "PHP    - Install PHP" OFF 3>&1 1>&2 2>&3)
 
     if [ $? -eq 0 ]; then
         if [[ -z ${SERVICE_SELECTED} ]];then
