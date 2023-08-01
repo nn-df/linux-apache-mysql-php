@@ -9,6 +9,13 @@ check_service_status() {
 	systemctl status $1 --no-pager
 }
 
+cmd_reboot() {
+	whiptail --title "Reboting..." --msgbox "This server will reboot in 5 seconds" 8 78
+	sleep 5
+	reboot
+
+}
+
 check_dependency() {
 	# check root
 	if [[ $EUID -ne 0 ]]; then
@@ -63,6 +70,10 @@ get_confirmation_service() {
 			if [[ ${SERVICE_SELECTED} == *"M"* ]];then
                 MYSQL="true"
             fi
+
+			if [[ ${SERVICE_SELECTED} == *"P"* ]];then
+                PHP="true"
+            fi
         fi
     fi
 
@@ -115,8 +126,17 @@ configure_service_mysql() {
 		sudo mysql_secure_installation
 
 		echo "[+] Check mysql status ..."
-		check_service_status apache2
+		check_service_status mysql
 		echo "[+] Configure mysql OK ..."
+	fi
+}
+
+# configure php
+configure_service_php() {
+	if [[ ${PHP:-} == "true" ]];then
+		echo "[+] Install PHP"
+		sudo apt -yq install php libapache2-mod-php php-mysql php-curl php-json php-cgi \
+		php-curl php-gd php-mbstring php-xml php-xmlrpc
 	fi
 }
 
@@ -127,6 +147,9 @@ main() {
     configure_service_linux
 	configure_service_apache
 	configure_service_mysql
+	configure_service_php
+	echo "[+] Installation Done"
+	cmd_reboot
 }
 
 main
