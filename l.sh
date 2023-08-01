@@ -44,7 +44,6 @@ get_confirmation_service() {
     "4" "4" OFF 3>&1 1>&2 2>&3)
 
     if [ $? -eq 0 ]; then
-        echo ${SERVICE_SELECTED}
         if [[ -z ${SERVICE_SELECTED} ]];then
             echo "No Service Selected! Please choose any [L] services ..."
             exit 1
