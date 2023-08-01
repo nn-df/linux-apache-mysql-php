@@ -66,8 +66,8 @@ get_confirmation_service() {
 }
 
 check_ufw_status() {
-	sudo ufw status | grep -w active
-	if [ $? -eq 0 ];then
+	UFW_STATUS=$(sudo ufw status | grep -i active | awk '{ print $2 }')
+	if [ ${UFW_STATUS} == "active" ];then
 		UFW_STATUS="enable"
 	fi
 }
