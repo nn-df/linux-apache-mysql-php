@@ -5,6 +5,10 @@ install_service() {
 	apt -yq install $1
 }
 
+check_service_status() {
+	systemctl status $1 --no-pager
+}
+
 check_dependency() {
 	# check root
 	if [[ $EUID -ne 0 ]]; then
@@ -37,9 +41,9 @@ check_dependency() {
 
 get_confirmation_service() {
 
-    SERVICE_SELECTED=$(whiptail --title "L" --checklist "Select the L service want to install and configure :" 20 90 4 \
+    SERVICE_SELECTED=$(whiptail --title "LA" --checklist "Select the LA service want to install and configure :" 20 90 4 \
     "L" "Linux - Initial Configuration for linux    " OFF \
-    "2" "2" OFF \
+    "A" "Apache - Install APACHE web server" OFF \
     "3" "3" OFF \
     "4" "4" OFF 3>&1 1>&2 2>&3)
 
@@ -51,10 +55,21 @@ get_confirmation_service() {
             if [[ ${SERVICE_SELECTED} == *"L"* ]];then
                 LINUX="true"
             fi
+
+			if [[ ${SERVICE_SELECTED} == *"A"* ]];then
+                APACHE="true"
+            fi
         fi
     fi
 
 
+}
+
+check_ufw_status() {
+	sudo ufw status | grep -qw active
+	if [ $? -eq 0 ];then
+		UFW_STATUS="enable"
+	fi
 }
 
 # configure linux
@@ -66,12 +81,32 @@ configure_service_linux() {
     fi
 }
 
+# configure apache
+configure_service_apache() {
+	if [[ ${APACHE:-} == "true" ]];then
+        echo "[+] Configure apache"
+        install_service apache2
+		
+		echo "[+] check ufw"
+		check_ufw_status
+		if [[ ${UFW_STATUS} == "enable" ]];then
+			echo "[+] Ufw fw enable. Allow port 80/443"
+			sudo ufw allow 80
+			sudo ufw allow 443
+		fi
+		
+		echo "[+] Check apache status ..."
+		check_service_status apache2
+        echo "[+] Configure appache OK ..."
+    fi
+}
 
 # main
 main() {
     check_dependency
     get_confirmation_service
     configure_service_linux
+	configure_service_apache
 }
 
 main
