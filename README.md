@@ -6,6 +6,7 @@
 
 ### How to run
 ```
-wget https://raw.githubusercontent.com/nn-df/linux-apache-mysql-php/main/lamp.sh
+git clone https://github.com/nn-df/linux-apache-mysql-php.git
+cd linux-apache-mysql-php
 bash lamp.sh
 ```
