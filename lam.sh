@@ -41,10 +41,10 @@ check_dependency() {
 
 get_confirmation_service() {
 
-    SERVICE_SELECTED=$(whiptail --title "LA" --checklist "Select the LA service want to install and configure :" 20 90 4 \
-    "L" "Linux - Initial Configuration for linux    " OFF \
+    SERVICE_SELECTED=$(whiptail --title "LAM" --checklist "Select the LAM service want to install and configure :" 20 90 4 \
+    "L" "Linux  - Initial Configuration for linux    " OFF \
     "A" "Apache - Install APACHE web server" OFF \
-    "3" "3" OFF \
+    "M" "Mysql  - Install MYSQL server" OFF \
     "4" "4" OFF 3>&1 1>&2 2>&3)
 
     if [ $? -eq 0 ]; then
@@ -58,6 +58,10 @@ get_confirmation_service() {
 
 			if [[ ${SERVICE_SELECTED} == *"A"* ]];then
                 APACHE="true"
+            fi
+
+			if [[ ${SERVICE_SELECTED} == *"M"* ]];then
+                MYSQL="true"
             fi
         fi
     fi
@@ -97,8 +101,23 @@ configure_service_apache() {
 		
 		echo "[+] Check apache status ..."
 		check_service_status apache2
-        echo "[+] Configure appache OK ..."
+        echo "[+] Configure apache OK ..."
     fi
+}
+
+# configure mysql
+configure_service_mysql() {
+	if [[ ${MYSQL:-} == "true" ]];then
+		echo "[+] Install MYSQL"
+		install_service mysql-server
+
+		echo "[+] Configure MYSQL"
+		sudo mysql_secure_installation
+
+		echo "[+] Check mysql status ..."
+		check_service_status apache2
+		echo "[+] Configure mysql OK ..."
+	fi
 }
 
 # main
@@ -107,6 +126,7 @@ main() {
     get_confirmation_service
     configure_service_linux
 	configure_service_apache
+	configure_service_mysql
 }
 
 main
