@@ -48,7 +48,7 @@ check_dependency() {
 
 get_confirmation_service() {
 
-    SERVICE_SELECTED=$(whiptail --title "LAM" --checklist "Select the LAM service want to install and configure :" 20 90 4 \
+    SERVICE_SELECTED=$(whiptail --title "LAMP" --checklist "Select the LAMP service want to install and configure :" 20 90 4 \
     "L" "Linux  - Initial Configuration for linux    " OFF \
     "A" "Apache - Install APACHE web server" OFF \
     "M" "Mysql  - Install MYSQL server" OFF \
