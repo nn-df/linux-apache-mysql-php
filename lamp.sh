@@ -155,17 +155,18 @@ configure_service_php() {
 				echo "[+] Test PHP created at /var/www/html/info.php"
 				echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
 				whiptail --title "PHP test file created" --msgbox \
-				"\\n PHP test page can be access by: 
+				"\\n PHP test page can be access by: \
 				\\n http://{server-ip}/info.php
-				\\n" 8 100
+				\\n [WARNING] Please delete the file if this is production server \
+				\\n Location file: "/var/www/html/info.php"
+				\\n" 14 100
+				echo "[+] PHP test page can be access by: http://{server-ip}/info.php"
 
 			else
 				:
 		fi
 	fi
 }
-
-
 
 
 # main
