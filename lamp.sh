@@ -16,6 +16,18 @@ cmd_reboot() {
 
 }
 
+display_ascii() {
+	echo -e '
+	m        mm   m    m mmmmm          mmmm mmmmmmm   mm     mmm  m    m
+	#        ##   ##  ## #   "#        #"   "   #      ##   m"   " #  m" 
+	#       #  #  # ## # #mmm#"        "#mmm    #     #  #  #      #m#   
+	#       #mm#  # "" # #                 "#   #     #mm#  #      #  #m 
+	#mmmmm #    # #    # #             "mmm#"   #    #    #  "mmm" #   "m
+	'
+	sleep 1
+
+}
+
 check_dependency() {
 	# check root
 	if [[ $EUID -ne 0 ]]; then
@@ -135,13 +147,14 @@ configure_service_mysql() {
 configure_service_php() {
 	if [[ ${PHP:-} == "true" ]];then
 		echo "[+] Install PHP"
-		sudo apt -yq install php libapache2-mod-php php-mysql php-curl php-json php-cgi \
-		php-curl php-gd php-mbstring php-xml php-xmlrpc
+		install_service "php libapache2-mod-php php-mysql php-curl php-json php-cgi \
+		php-curl php-gd php-mbstring php-xml php-xmlrpc"
 	fi
 }
 
 # main
 main() {
+	display_ascii
     check_dependency
     get_confirmation_service
     configure_service_linux
