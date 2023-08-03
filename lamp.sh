@@ -149,8 +149,24 @@ configure_service_php() {
 		echo "[+] Install PHP"
 		install_service "php libapache2-mod-php php-mysql php-curl php-json php-cgi \
 		php-curl php-gd php-mbstring php-xml php-xmlrpc"
+
+		if (whiptail --title "PHP test file" --yesno "This script will create php test file. Do you agree?" 8 78)
+			then
+				echo "[+] Test PHP created at /var/www/html/info.php"
+				echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
+				whiptail --title "PHP test file created" --msgbox \
+				"\\n PHP test page can be access by: 
+				\\n http://{server-ip}/info.php
+				\\n" 8 100
+
+			else
+				:
+		fi
 	fi
 }
+
+
+
 
 # main
 main() {
