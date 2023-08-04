@@ -13,3 +13,6 @@ git clone https://github.com/nn-df/linux-apache-mysql-php.git
 cd linux-apache-mysql-php
 sudo bash lamp.sh
 ```
+
+### Youtube Link Video [https://youtu.be/o71JFvGd3v4]
+[<img src="https://img.youtube.com/vi/o71JFvGd3v4/0.jpg" width="25%">](https://www.youtube.com/watch?v=o71JFvGd3v4)
