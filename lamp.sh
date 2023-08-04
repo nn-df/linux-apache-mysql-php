@@ -148,7 +148,7 @@ configure_service_php() {
 	if [[ ${PHP:-} == "true" ]];then
 		echo "[+] Install PHP"
 		install_service "php libapache2-mod-php php-mysql php-curl php-json php-cgi \
-		php-curl php-gd php-mbstring php-xml php-xmlrpc"
+		php-curl php-gd php-mbstring php-xml php-xmlrpc php-bcmath php-imagick php-intl php-zip"
 
 		if (whiptail --title "PHP test file" --yesno "This script will create php test file. Do you agree?" 8 78)
 			then
