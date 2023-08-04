@@ -171,15 +171,43 @@ configure_service_php() {
 
 # main
 main() {
+	#display ascii
 	display_ascii
+
+	#check script dependency
     check_dependency
+
+	#get service to install or configure
     get_confirmation_service
+
+	# configure linux
     configure_service_linux
+
+	# install and configure apache
 	configure_service_apache
+
+	# install and configure mysql
 	configure_service_mysql
+
+	# install and configure php
 	configure_service_php
-	echo "[+] Installation Done"
-	cmd_reboot
+
+	#check reboot
+	if [[ -z "$1" ]]; then
+		echo "[+] Installation Done"
+		cmd_reboot
+	elif [[ "$1" == "-h" ]];then
+		echo "This is how to run the script"
+		echo "sudo bash lamp.sh              # normal operation"
+		echo "sudo bash lamp.sh --no-reboot  # no reboot operation"
+	else
+		if [[ "$1" == "--no-reboot" ]]; then
+			echo "[+] Installation Done"
+		else
+			echo "Wrong arguments : ${1}"
+			echo "did you mean '--no-reboot'"
+		fi
+	fi
 }
 
-main
+main $1
